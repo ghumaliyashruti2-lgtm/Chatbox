@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElixirTechne Support Chat</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+<div class="chat-container">
+
+  <div class="chat-header">
+    <i class="fa-solid fa-arrow-left"></i> Chat Support
+  </div>
+
+  <div class="chat-body" id="chatBody">
+    <div class="message bot">Hi! Welcome to ElixirTechne 👋</div>
+    <div class="message bot">How can we help you today?</div>
+
+    <div class="quick-buttons">
+      <button onclick="sendQuick('Courses details')">Courses details</button>
+      <button onclick="sendQuick('Fees structure')">Fees structure</button>
+      <button onclick="sendQuick('Duration of courses')">Duration of courses</button>
+      <button onclick="sendQuick('Location and contact')">Location and contact</button>
+      <button onclick="sendQuick('Job support / placement')">Job support / placement</button>
+      <button onclick="sendQuick('I have other questions')">I have other questions</button>
+    </div>
+
+  </div>
+
+  <div class="chat-footer">
+    <input type="text" id="userInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+</div>
+
+<script src="/static/js/script.js"></script>
+</body>
+</html>
