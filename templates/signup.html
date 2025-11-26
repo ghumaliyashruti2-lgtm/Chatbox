@@ -14,7 +14,7 @@
 
 <div class="signup-container">
    <img src ="/static/images/Elixire_logo.png" >
-  <h2>Create Account</h2>
+  <h2>Sign up</h2>
 
   <form method = "POST" action = "{% url 'signup' %}">
     {% csrf_token %}
@@ -62,7 +62,7 @@
 
     <button type="submit" class="signup-btn">Sign Up</button>
 
-    <p class="login-text">Already have an account? <a href="#">Login</a></p>
+    <p class="login-text">Already have an account? <a href="{% url 'login' %}">Login</a></p>
 
   </form>
 </div>
