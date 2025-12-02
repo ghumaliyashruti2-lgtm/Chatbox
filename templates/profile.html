@@ -1,71 +1,49 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
-
-<body>
-
-<div class="profile-header"></div>
-
-<div class="profile-card">
-
-    <div class="profile-img">
-        <img src="{% static 'images/user_img.png' %}" alt="Profile Picture">
-    </div>
-
-    <h2 class="username">{{ request.user.username}}</h2>
-
-    <div class="info-row">
-        <span>Phone</span>
-        <strong>{{ user.phone|default:"Not added" }}</strong>
-    </div>
-
-    <div class="info-row">
-        <span>Email</span>
-        <strong>{{ request.user.email }}</strong>
-    </div>
-
-    <hr>
-
-    <div class="settings-item">
-        <div class="settings-left">
-            <i class="fa-regular fa-moon"></i>
-            <span>Dark Mode</span>
+{% extends "base.html" %}
+  {% block content %}
+  {% load static %}
+    <body>
+        <div class="profile-header">
         </div>
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider round"></span>
-        </label>
-    </div>
+        <div class="profile-card">
 
-    <div class="settings-item">
-        <div class="settings-left">
-            <i class="fa-regular fa-user"></i>
-            <span>Profile details</span>
+            <div class="profile-img">
+                <img src="{{ profile.profile_picture.url }}" alt="Profile">
+            </div>
+
+            <div class="info-row">
+                <span>Username</span>
+                <strong>{{ request.user.username}}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Phone</span>
+                <strong>{{ profile.mobile|default:"Not added" }}</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Email</span>
+                <strong>{{ request.user.email }}</strong>
+            </div>
+
+            <hr>
+
+            
+
+            <div class="settings-item">
+                <div class="settings-left">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Profile details</span>
+                </div>
+                <a href="{% url 'my-profile' %}" style= "color:black"><i class="fa-solid fa-chevron-right arrow"></i></a>
+            </div>
+
+            
+            <div class="settings-item logout">
+                <span><a href="{% url 'index' %}">Back</a></span>
+                <span><a href="{% url 'logout' %}">Log out</a></span>
+            </div>
+            
         </div>
-        <i class="fa-solid fa-chevron-right arrow"></i>
-    </div>
+    </body>
+   {% endblock %} 
 
-    <div class="settings-item">
-        <div class="settings-left">
-            <i class="fa-solid fa-sliders"></i>
-            <span>Settings</span>
-        </div>    
-        <i class="fa-solid fa-chevron-right arrow"></i>
-    </div>
-
-    <div class="settings-item logout">
-        <span><a href="{% url 'logout' %}">Log out</a></span>
-    </div>
-    
-
-</div>
-
-</body>
-</html>

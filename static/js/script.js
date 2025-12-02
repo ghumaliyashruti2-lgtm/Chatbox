@@ -102,3 +102,101 @@ function showCourseButtons(){
 }
 
 
+// country and city name and mobile code 
+
+
+const data = {
+
+    "India": {
+        code: "+91",
+        cities: [
+            "Ahmedabad", "Surat", "Vadodara", "Rajkot", "Mumbai", "Pune",
+            "Delhi", "Bengaluru", "Hyderabad", "Chennai", "Kolkata",
+            "Jaipur", "Lucknow", "Kanpur", "Indore", "Bhopal", "Agra"
+        ]
+    },
+
+    "United States": {
+        code: "+1",
+        cities: [
+            "New York", "Los Angeles", "Chicago", "Houston", "Phoenix",
+            "San Diego", "Dallas", "San Jose", "Philadelphia"
+        ]
+    },
+
+    "United Kingdom": {
+        code: "+44",
+        cities: [
+            "London", "Manchester", "Birmingham", "Liverpool", "Leeds",
+            "Bristol", "Sheffield"
+        ]
+    },
+
+    "Canada": {
+        code: "+1",
+        cities: [
+            "Toronto", "Vancouver", "Montreal", "Calgary", "Ottawa",
+            "Edmonton"
+        ]
+    },
+
+    "Australia": {
+        code: "+61",
+        cities: [
+            "Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"
+        ]
+    },
+
+    "Germany": {
+        code: "+49",
+        cities: [
+            "Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt"
+        ]
+    }
+
+    
+
+    
+};
+
+
+
+let countryDropdown = document.getElementById("country");
+for (let country in data) {
+    countryDropdown.innerHTML += `<option value="${country}">${country}</option>`;
+}
+
+
+
+document.getElementById("country").addEventListener("change", function () {
+    let selected = this.value;
+    let mobile = document.getElementById("mobile");
+    let city = document.getElementById("city");
+
+    if (selected && data[selected]) {
+        // Set mobile code
+        mobile.value = data[selected].code + " ";
+
+        // Fill cities
+        city.innerHTML = "<option value=''>Select City</option>";
+        data[selected].cities.forEach(c => {
+            city.innerHTML += `<option value="${c}">${c}</option>`;
+        });
+
+    } else {
+        mobile.value = "";
+        city.innerHTML = "<option value=''>Select City</option>";
+    }
+});
+
+// image show on edit page
+
+function previewImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const img = document.getElementById("previewImg");
+        img.src = URL.createObjectURL(file);
+        img.style.display = "block";
+    }
+}
+

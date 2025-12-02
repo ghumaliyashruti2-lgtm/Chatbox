@@ -11,8 +11,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("logout/", views.logout, name="logout"),
     path("profile/", views.profile, name="profile"),
-
+    path("my-profile/",views.myprofile,name="my-profile"),
+    path("edit-profile/",views.editprofile,name="edit-profile"),
+    path("delete-profile/",views.deleteprofile,name="delete-profile"),
 ]
-
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

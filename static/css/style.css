@@ -415,7 +415,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    font-size: 16px;
+    font-size: 14px;
     color: #555;
 }
 
@@ -457,44 +457,6 @@ hr {
 }
 
 
-/* Toggle switch */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 46px;
-    height: 24px;
-}
-
-.switch input { display: none; }
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    background-color: #ccc;
-    top: 0; left: 0; right: 0; bottom: 0;
-    transition: .4s;
-    border-radius: 34px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: #4BA3DE;
-}
-
-input:checked + .slider:before {
-    transform: translateX(22px);
-}
 
 /* Logout */
 .logout span a {
@@ -505,7 +467,140 @@ input:checked + .slider:before {
     text-decoration: none;
     font-size: 14px;
     font-weight: bold;
-    margin-left: 157px;
+    margin-left: 0px;
 }
 
+/* my-profile page design */
+
+body {
+            background: #f5f5f5;
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        
+        .profile-header-bg {
+            height: 120px;
+            background: linear-gradient(to right, #acd6ff, #ffe9c9);
+            border-radius: 12px 12px 0 0;
+        }
+
+        
+        .profile-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .profile-top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            margin-top: -60px;
+        }
+
+        .profile-user {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .profile-user img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .delete-btn {
+            background: #3b82f6;
+            padding: 10px 22px;
+            border-radius: 8px;
+            color: white;
+            font-size: 15px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        
+        label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e6e6e6;
+            background: #f7f7f7;
+            margin-top: 5px;
+        }
+
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            padding: 0 30px 30px;
+        }
+
+
+/* delete and delete profile button */
+
+.circle-btn {
+    width: 40px;
+    height: 40px;
+    background: #4BA3DE; /* dark blue circle */
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 22px;
+}
+
+.circle-btn p {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #000; /* label black */
+    text-align: center;
+}
+
+.circle-btn:hover {
+    background: #0062ad;
+    transform: scale(1.05);
+}
+
+
+.setting-save-btn {
+    display: flex;
+    gap: 12px; 
+}
+
+    
+.save-btn{ 
+    background: #4BA3DE;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 8px;
+    border-color: white;
+    box-shadow : none;
+    border-bottom: none;
+    border-right: none;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    margin: auto;
+}
 
