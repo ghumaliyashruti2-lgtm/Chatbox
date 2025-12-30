@@ -22,112 +22,70 @@ function autoScroll() {
     if (chatBody) chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-
-/************************************************ CHAT MESSAGE LIMIT ***************************************/
-
 // ======================
-// CONFIG
+// LIMIT UI HANDLER
 // ======================
-const MAX_MESSAGES = 10;
-const CHAT_LIMIT_HOURS = 24;
-let isProcessing = false;
-
-// ======================
-// CHAT LIMIT HELPERS
-// ======================
-function setChatStartTime() {
-    localStorage.setItem("chatStartTime", Date.now());
-    localStorage.setItem("messageCount", "0");
-}
-
-function isChatExpired() {
-    const start = localStorage.getItem("chatStartTime");
-    if (!start) return true;
-    return (Date.now() - start) / (1000 * 60 * 60 ) >= CHAT_LIMIT_HOURS;
-}
-
-function resetChatLimit() {
-    localStorage.removeItem("chatStartTime");
-    localStorage.removeItem("messageCount");
-}
-
-function getUserMessageCount() {
-    return parseInt(localStorage.getItem("messageCount") || "0", 10);
-}
-
-function incrementMessageCount() {
-    localStorage.setItem("messageCount", getUserMessageCount() + 1);
-}
-
-// ======================
-// LIMIT REACHED MESSAGE 
-// ======================
-
-document.addEventListener("DOMContentLoaded", () => {
-    if (document.getElementById("limitMessage")) {
-        const input = document.getElementById("userInput");
-        const sendBtn = document.getElementById("sendBtn");
-
-        if (input) input.disabled = true;
-        if (sendBtn) {
-            sendBtn.disabled = true;
-            sendBtn.style.opacity = "0.5";
-            sendBtn.style.cursor = "not-allowed";
-        }
-    }
-});
-
-// =========================================
-// LIMIT REACHED REMMANING TIME MESSAGE SHOW 
-// =========================================
-
-let seconds = window.REMAINING_SECONDS || 0;
-
-if (seconds > 0) {
-    const el = document.getElementById("timeLeft");
-
-    setInterval(() => {
-        if (seconds <= 0) return;
-
-        const h = Math.floor(seconds / 3600);
-        const m = Math.floor((seconds % 3600) / 60);
-        const s = seconds % 60
-
-        if (el) {
-            el.textContent = `${h}h ${m}m  ${s}s remaining`;
-        }
-
-        seconds--;
-    }, 1000);
-}
-
-// ======================
-// FORCE NEW CHAT
-// ======================
-function forceNewChat() {
+function forceLimitReached(seconds = 0) {
     const input = document.getElementById("userInput");
     const sendBtn = document.getElementById("sendBtn");
     const chatBody = document.getElementById("chatBody");
 
-    if (!input || !sendBtn || !chatBody) return;
-
-    input.disabled = true;
-    sendBtn.disabled = true;
-    sendBtn.style.opacity = "0.5";
+    if (input) input.disabled = true;
+    if (sendBtn) {
+        sendBtn.disabled = true;
+        sendBtn.style.opacity = "0.5";
+    }
 
     if (!document.getElementById("limitMessage")) {
         const msg = document.createElement("div");
         msg.id = "limitMessage";
         msg.className = "message system-message";
-        msg.innerHTML = "⚠ Chat limit reached (10 messages / 24 hours). Start a new chat.";
+        msg.innerHTML = `
+            ⚠ Chat limit reached (10 messages / 24 hours)
+            <div id="timeLeft"></div>
+        `;
         chatBody.appendChild(msg);
         autoScroll();
     }
+
+    if (seconds > 0) startCountdown(seconds);
+}
+
+// ======================
+// COUNTDOWN TIMER
+// ======================
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.REMAINING_SECONDS > 0) {
+        startCountdown(window.REMAINING_SECONDS);
+    }
+});
+
+function startCountdown(seconds) {
+    const el = document.getElementById("timeLeft");
+
+    const timer = setInterval(() => {
+        if (seconds <= 0) {
+            clearInterval(timer);
+            location.reload(); // auto unlock after expiry
+            return;
+        }
+
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+
+        if (el) el.textContent = `${h}h ${m}m ${s}s remaining`;
+        seconds--;
+    }, 1000);
 }
 
 // ======================
 // SEND MESSAGE
 // ======================
+let isProcessing = false;
+let selectedFile = null;
+
 async function sendMessage(e) {
     if (e) e.preventDefault();
     if (isProcessing) return;
@@ -137,53 +95,39 @@ async function sendMessage(e) {
     const chatBody = document.getElementById("chatBody");
     const typing = document.getElementById("typingIndicator");
 
-    if (!input || !sendBtn || !chatBody) return;
-
     const message = input.value.trim();
-
-    // ✅ Allow file-only send
     if (!message && !selectedFile) return;
 
     isProcessing = true;
     input.disabled = true;
     sendBtn.style.opacity = "0.6";
 
-    /* ======================
-       SHOW USER MESSAGE
-    ====================== */
-    let displayText = message;
-    if (!message && selectedFile) {
-        displayText = `📎 ${selectedFile.name}`;
-    }
-
     chatBody.insertAdjacentHTML("beforeend", `
         <div class="chat-message user-message">
             <div class="message user">
-                <div class="message-content">${displayText}</div>
-                <div class="message-actions">
-                    <i class="fa fa-copy copy-btn"></i>
+                <div class="message-content">
+                    ${message || "📎 " + selectedFile.name}
                 </div>
             </div>
         </div>
     `);
 
     autoScroll();
+    autoScroll(); // 👈 ensure user msg visible first
 
+    // ======================
+    // THEN SHOW TYPING DOTS
+    // ======================
     if (typing) {
         typing.style.display = "flex";
         chatBody.appendChild(typing);
+        autoScroll();
     }
 
-    /* ======================
-       FORM DATA (IMPORTANT)
-    ====================== */
+
     const formData = new FormData();
     formData.append("message", message);
-    formData.append("chat_id", window.CHAT_ID);
-
-    if (selectedFile) {
-        formData.append("file", selectedFile);
-    }
+    if (selectedFile) formData.append("file", selectedFile);
 
     try {
         const res = await fetch("/chatbot/chatbot/", {
@@ -198,24 +142,18 @@ async function sendMessage(e) {
         if (typing) typing.style.display = "none";
 
         if (res.status === 403) {
-            await res.json();
-            forceNewChat();
-            isProcessing = false;
+            const data = await res.json();
+            forceLimitReached(data.remaining_seconds);
             return;
         }
 
-        if (!res.ok) throw new Error("Server error");
-
         const data = await res.json();
-
-        incrementMessageCount(); // ✅ keep as-is
 
         chatBody.insertAdjacentHTML("beforeend", `
             <div class="chat-message bot-message">
                 <div class="message bot">
-                    <div class="message-content">${data.reply.replace(/\n/g, "<br>")}</div>
-                    <div class="message-actions">
-                        <i class="fa fa-copy copy-btn"></i>
+                    <div class="message-content">
+                        ${data.reply.replace(/\n/g, "<br>")}
                     </div>
                 </div>
             </div>
@@ -227,102 +165,27 @@ async function sendMessage(e) {
         console.error(err);
     }
 
-    /* ======================
-       RESET STATE
-    ====================== */
     isProcessing = false;
     input.disabled = false;
     sendBtn.style.opacity = "1";
     input.value = "";
-    input.focus();
-
     selectedFile = null;
     document.getElementById("fileInput").value = "";
 }
 
-
-// ======================
-// COPY BUTTON
-// ======================
-document.addEventListener("click", e => {
-    const btn = e.target.closest(".copy-btn");
-    if (!btn) return;
-    const msg = btn.closest(".message");
-    if (!msg) return;
-
-    const clone = msg.cloneNode(true);
-    clone.querySelector(".message-actions")?.remove();
-
-    navigator.clipboard.writeText(clone.innerText.trim()).then(() => {
-        btn.classList.replace("fa-copy", "fa-check");
-        setTimeout(() => btn.classList.replace("fa-check", "fa-copy"), 1000);
-    });
-});
-
-
-
-/************************************INPUT FIED OPTIONS **********************************************/
-
-// ======================
-// EMOJI ATTACH 
-// ======================
-
-
-let emojiPickerLoaded = false;
-
-function toggleEmojiPicker() {
-    const pickerDiv = document.getElementById("emojiPicker");
-
-    if (!emojiPickerLoaded) {
-        const picker = new window.EmojiMart.Picker({
-            onEmojiSelect: (emoji) => {
-                document.getElementById("userInput").value += emoji.native;
-                
-            }
-        });
-
-        pickerDiv.appendChild(picker);
-        emojiPickerLoaded = true;
-    }
-
-    pickerDiv.style.display =
-        pickerDiv.style.display === "block" ? "none" : "block";
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    const emojiBtn = document.getElementById("emojiBtn");
-    const picker = document.getElementById("emojiPicker");
-
-    if (!emojiBtn || !picker) return;
-
-    emojiBtn.addEventListener("click", e => e.stopPropagation());
-    picker.addEventListener("click", e => e.stopPropagation());
-
-    document.addEventListener("click", () => {
-        picker.style.display = "none";
-    });
-});
-
-
-
 // ======================
 // FILE UPLOAD
 // ======================
-
-let selectedFile = null;
-
 function uploadFile() {
     const fileInput = document.getElementById("fileInput");
     const userInput = document.getElementById("userInput");
 
-    if (!fileInput || !fileInput.files.length) return;
+    if (!fileInput.files.length) return;
 
     selectedFile = fileInput.files[0];
-
-    // ✅ Show selected file name in input field
     userInput.value = `📎 ${selectedFile.name}`;
-    userInput.setAttribute("data-has-file", "true");
 }
+
 
 // ======================
 // MOBILE NAV
