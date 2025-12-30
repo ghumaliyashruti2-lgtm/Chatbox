@@ -9,4 +9,10 @@ class History(models.Model):
     ai_message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     
+    uploaded_file = models.FileField(
+        upload_to="chat_uploads/",
+        null=True,
+        blank=True
+    )
+
 
