@@ -68,41 +68,47 @@
         <form id="chatForm" onsubmit="sendMessage(event)" class="chat-input-box">
             {% csrf_token %}
 
-            <button
-                type="button" class="icon-btn" id="emojiBtn" onclick="toggleEmojiPicker()">
+            <!-- Emoji -->
+            <button type="button" class="icon-btn" id="emojiBtn" onclick="toggleEmojiPicker()">
                 <i class="far fa-smile"></i>
             </button>
 
             <div id="emojiPicker" class="emoji-picker"></div>
 
-
             <!-- Text input -->
-            <input 
+            <input
                 type="text"
                 id="userInput"
                 placeholder="Message"
                 autocomplete="off"
-                required
-                autofocus
             >
 
-            <!-- Attachment -->
-            <input type="file" id="fileInput" hidden onchange="uploadFile()">
+            <!-- File input -->
+            <input
+                type="file"
+                id="fileInput"
+                hidden
+                accept="image/*,.pdf,.doc,.docx,.txt"
+                onchange="uploadFile()"
+            >
 
-            <button type="button" class="icon-btn" onclick="document.getElementById('fileInput').click()">
+            <button type="button" class="icon-btn"
+                onclick="document.getElementById('fileInput').click()">
                 <i class="fas fa-paperclip"></i>
             </button>
-
 
             <!-- Audio -->
             <button type="button" class="icon-btn" onclick="startSpeechToText()">
                 <i class="fas fa-microphone"></i>
             </button>
 
-
-            <button type="submit" id="sendBtn" class="send-btn"> <i class="fas fa-paper-plane"></i></button>
+            <!-- Send -->
+            <button type="submit" id="sendBtn" class="send-btn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </form>
-    </div> 
+    </div>
+
 
 </div>
 {% endblock %}
