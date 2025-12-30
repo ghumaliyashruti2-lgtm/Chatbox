@@ -24,20 +24,22 @@ def new_chatbot(request):
     # =====================
     # CHAT ID HANDLING
     # =====================
+    
     if request.GET.get("action") == "new":
         chat_id = str(uuid.uuid4())
-        request.session["chat_id"] = chat_id
-
-    elif request.GET.get("chat_id"):
-        chat_id = request.GET.get("chat_id")
-        request.session["chat_id"] = chat_id
-
-    elif request.session.get("chat_id"):
-        chat_id = request.session["chat_id"]
 
     else:
+        chat_id = (
+            request.POST.get("chat_id")
+            or request.GET.get("chat_id")
+            or request.session.get("chat_id")
+        )
+
+    if not chat_id:
         chat_id = str(uuid.uuid4())
-        request.session["chat_id"] = chat_id
+
+    request.session["chat_id"] = chat_id
+
 
     profile = Profile.objects.get(user=request.user)
 
@@ -89,10 +91,8 @@ def new_chatbot(request):
             expiry_time = first_message_time + timedelta(hours=CHAT_LIMIT_HOURS)
 
             if now >= expiry_time:
-                chat_id = str(uuid.uuid4())
-                request.session["chat_id"] = chat_id
-                conversation = []
-                user_message_count = 0
+                pass  # allow messages again in same chat
+
 
             elif user_message_count >= MAX_MESSAGES:
                 remaining_seconds = int((expiry_time - now).total_seconds())
