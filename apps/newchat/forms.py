@@ -2,41 +2,29 @@ from django import forms
 from apps.history.models import History
 
 class ChatbotMessageForm(forms.Form):
-    message = forms.CharField(max_length=5000, required=True)
+    message = forms.CharField(required=False)
 
-    def __init__(self, user, chat_id, conversation=None, *args, **kwargs):
-        """
-        user: current request.user
-        chat_id: current chat session ID
-        conversation: list of previous messages for context
-        """
-        super().__init__(*args, **kwargs)
+    def __init__(self, user, chat_id, conversation, *args, **kwargs):
         self.user = user
         self.chat_id = chat_id
-        self.conversation = conversation or []
+        self.conversation = conversation
+        super().__init__(*args, **kwargs)
 
-    def clean_message(self):
-        msg = self.cleaned_data.get("message", "").strip()
-        if not msg:
-            raise forms.ValidationError("Message cannot be empty.")
-        return msg
+    def save(self, bot_engine, uploaded_file=None, image_base64=None):
 
-    def save(self, bot_engine):
-        """
-        Saves the user message and AI response to History
-        bot_engine: instance of chatbot engine (OpenRouterChatbot)
-        """
-        user_message = self.cleaned_data["message"]
+        user_message = self.cleaned_data.get("message", "")
 
-        # Get AI reply
-        ai_reply = bot_engine.get_response(user_message, self.conversation)
+        ai_message = bot_engine.get_response(
+            user_input=user_message,
+            conversation_history=self.conversation,
+            image_base64=image_base64
+        )
 
-        # Save to History
         History.objects.create(
             user=self.user,
             chat_id=self.chat_id,
             user_message=user_message,
-            ai_message=ai_reply
+            ai_message=ai_message
         )
 
-        return ai_reply
+        return ai_message

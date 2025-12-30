@@ -10,5 +10,14 @@ class NewChat(models.Model):
     ai_message = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    uploaded_file = models.FileField(
+        upload_to="chat_uploads/",
+        null=True,
+        blank=True
+    )
+
+    
     def __str__(self):
         return f"{self.user.username} - {self.chat_id}"
+
+    
