@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    </head>
+    <body>
+        <div class="profile-card desktop-only" >
+                <div class="profile-img">
+                    <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'images/user_img.png' %}{% endif %}">
+                </div>
+
+                <div class="info-row">
+                    <span>Username</span>
+                    <strong>{{ request.user.username }}</strong>
+                </div>
+                <div class="info-row">
+                    <span>Phone</span>
+                    <strong>{{ profile.mobile }}</strong>
+                </div>
+                <div class="info-row">
+                    <span>Email</span>
+                    <strong>{{ request.user.email }}</strong>
+                </div>
+
+                <hr>
+
+                <a href="{% url 'chatbot' %}" style="color:black; text-decoration: none;">
+                    <div class="settings-item">
+                        <i class='fas fa-comment-dots'></i>
+                        <span>New Chat </span>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </div>
+                </a>   
+
+                <a href="{% url 'profiles:my-profile' %}"style= "color:black; text-decoration: none;">
+                    <div class="settings-item">
+                        <i class='fa-regular fa-user'></i>
+                        <span>Profile details </span>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </div>
+                </a>
+
+                <a href="{% url 'history:history' %}" style="color:black; text-decoration: none;">
+                    <div class="settings-item" >
+                        <i class='fa fa-history'></i>
+                        <span>My History </span>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </div>
+                </a>
+
+                <a href="{% url 'logout' %}"style= "color:black; text-decoration: none;">
+                    <div class="settings-item">
+                        <i class='fas fa-sign-out-alt'></i>
+                        <span>Log out </span>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </div>
+                </a>
+        </div>
+        <script>
+            (function () {
+                const DESKTOP_URL = "{% url 'profiles:my-profile' %}";
+                const MOBILE_MAX = 768;
+
+                let wasMobile = window.innerWidth <= MOBILE_MAX;
+
+                window.addEventListener("resize", function () {
+                    const isMobileNow = window.innerWidth <= MOBILE_MAX;
+
+                    // Redirect ONLY when switching from mobile → desktop
+                    if (wasMobile && !isMobileNow) {
+                        window.location.replace(DESKTOP_URL);
+                    }
+
+                    wasMobile = isMobileNow;
+                });
+            })();
+        </script>
+
+
+
+    </body>
+</html>

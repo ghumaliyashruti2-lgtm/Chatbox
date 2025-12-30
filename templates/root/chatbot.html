@@ -1,0 +1,109 @@
+{% extends "root/root.html" %}
+{% load static %}
+
+{% block title %}Chat | ElixirTechne{% endblock %}
+
+{% block right_content %}
+<link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+
+<div class="chat-inner-card" id="right-content">
+
+    <!-- HEADER -->
+    <div class="chat-header">
+        <div class="chat-title">
+            <a href="{% url 'home' %}" class="mobile-only" style="color:white;">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+            <span>Elixir Techne Help Desk</span>
+        </div>
+
+        <div class="header-profile mobile-only">
+            <a href="{% url 'profiles:profile' %}">
+                <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'images/user_img.png' %}{% endif %}">
+            </a>
+        </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="chat-body" id="chatBody">
+
+        {% if not conversation %}
+            <div class="message bot">Hi! Welcome to ElixirTechne 👋</div>
+            <div class="message bot">How can we help you today?</div>
+        {% endif %}
+
+        {% for msg in conversation %}
+            {% if msg.role == "user" %}
+                <div class="chat-message user-message">
+                    <div class="message user">
+                        {{ msg.content }}
+                        <div class="message-actions">
+                            <i class="fa fa-edit edit-btn"></i>
+                            <i class="fa fa-copy copy-btn"></i>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="chat-message bot-message">
+                    <div class="message bot">
+                        {{ msg.content|linebreaksbr }}
+                        <div class="message-actions">
+                            <i class="fa fa-copy copy-btn"></i>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        <div id="typingIndicator" class="message bot" style="display:none;">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="chat-footer">
+        <form id="chatForm" onsubmit="sendMessage(event)" class="chat-input-box">
+            {% csrf_token %}
+
+            <button
+                type="button" class="icon-btn" id="emojiBtn" onclick="toggleEmojiPicker()">
+                <i class="far fa-smile"></i>
+            </button>
+
+            <div id="emojiPicker" class="emoji-picker"></div>
+
+
+            <!-- Text input -->
+            <input 
+                type="text"
+                id="userInput"
+                placeholder="Message"
+                autocomplete="off"
+                required
+                autofocus
+            >
+
+            <!-- Attachment -->
+            <input type="file" id="fileInput" hidden onchange="uploadFile()">
+
+            <button type="button" class="icon-btn" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-paperclip"></i>
+            </button>
+
+
+            <!-- Audio -->
+            <button type="button" class="icon-btn" onclick="startSpeechToText()">
+                <i class="fas fa-microphone"></i>
+            </button>
+
+
+            <button type="submit" id="sendBtn" class="send-btn"> <i class="fas fa-paper-plane"></i></button>
+        </form>
+    </div> 
+
+</div>
+{% endblock %}
+

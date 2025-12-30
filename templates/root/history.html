@@ -1,0 +1,134 @@
+{% extends "root/root.html" %} 
+{% load static %}
+{% load tz %}
+
+{% block title %}History | ElixirTechne{% endblock %}
+
+{% block right_content %}
+
+<link rel="stylesheet" href="{% static 'css/history.css' %}">
+
+<div class="chat-inner-card history-card">
+
+    <div class="top-bar">
+
+        <div id="cleanPopup" class="simple-popup">
+            <div class="simple-popup-box">
+                <i class="fa fa-trash" ></i>
+                <h3>Delete History?</h3>
+                <p>This action will permanently remove your chat history.</p>
+
+                <input type="hidden" id="cleanRange">
+
+                <div class="simple-buttons">
+                    <button class="simple-cancel" onclick="closeCleanPopup()">Cancel</button>
+                    <button class="simple-delete" onclick="confirmCleanHistory()">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="top-left">
+            <!-- Back Button -->
+            <div class="back-btn desktop-only">
+                    <a href=" " style="color:white;">
+                    <i class="fa fa-search" ></i>
+                </a>
+            </div>
+            
+            <div class="back-btn mobile-only">
+                    <a href=" {% url 'profiles:profile' %}" style="color:white;">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search messages..." oninput="searchHistory()">
+            </div>
+
+        </div>
+
+        <div class="top-right">
+
+            <!-- Sort Dropdown -->
+            <select class="dropdown" id="sortSelect" onchange="sortHistory()">
+                <option value="newest" {% if sort_option == 'newest' %}selected{% endif %}>Newest First</option>
+                <option value="oldest" {% if sort_option == 'oldest' %}selected{% endif %}>Oldest First</option>
+            </select>
+
+
+            <!-- 3 Dots Menu -->
+            <div class="dots-container">
+                <div class="dots" onclick="toggleMenu()">&#8942;</div>
+
+                <!-- Main Dropdown -->
+                <div class="dots-menu" id="dotsMenu">
+
+                    <!-- Clean History Main Button -->
+                    <div class="menu-item submenu-toggle" onclick="toggleSubmenu(event)">
+                        Clean History ▸
+                    </div>
+
+                    <!-- Submenu -->
+                    <!-- submenu -->
+                    <div class="submenu" id="submenu">
+                        <div class="submenu-item" onclick="event.stopPropagation(); openCleanPopup('day')">Today</div>
+                        <div class="submenu-item" onclick="event.stopPropagation(); openCleanPopup('week')">This Week</div>
+                        <div class="submenu-item" onclick="event.stopPropagation(); openCleanPopup('month')">This Month</div>
+                        <div class="submenu-item" onclick="event.stopPropagation(); openCleanPopup('all')">All Time</div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    
+    </div>
+
+    <div class="history-body">
+
+        {% if history_groups %}
+            {% for chat in history_groups %}
+
+            <div class="date-title">
+                {{ chat.start_time|localtime|date:"d F, Y" }}
+            </div>
+
+            <div class="history-row history-wrapper">
+
+                <!-- CHAT OPEN -->
+                <a href="{% url 'chatbot' %}?chat_id={{ chat.chat_id }}&from={{ chat.from_time }}"
+                   class="history-link">
+
+                    <div class="content">
+                        <div class="time">
+                            {{ chat.start_time|localtime|time:"g:i A" }}
+                        </div>
+                        <div class="user-msg history-msg">
+                            {{ chat.preview }}...
+                        </div>
+                    </div>
+                </a>
+
+                <!-- DELETE BUTTON -->
+                <button
+                    class="delete-btn"
+                    type="button"
+                    onclick="event.stopPropagation(); openCleanPopup('{{ chat.chat_id }}')">
+                    <i class="fa fa-trash"></i>
+                </button>
+
+            </div>
+
+            {% endfor %}
+        {% else %}
+            <div class="no-history">No history found.</div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
