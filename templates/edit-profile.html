@@ -8,16 +8,17 @@
 
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 </head>
-<body>
+
 
     <div class="card">
+        <div class="close-btn"><a href= "{% url 'my-profile' %}" style="text-decoration:none; color:white;">✕</a></div>
 
-       
-       <div class="icon-container">
-    <img class="profile-img"
-         src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'default/user_img.png' %}{% endif %}"
-         alt="Profile">
-</div>
+        <div class="icon-container">
+            <img id="previewImg" class="profile-img" 
+                src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'default/user_img.png' %}{% endif %}" 
+                alt="Profile">
+        </div>
+
 
 
         <h3>click on edit and select your profile</h3>
@@ -25,30 +26,33 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
-            <input type="file" id="uploadImage" name="profile_picture"
-                accept="image/*" onchange="previewImage(event)" style="display:none;">
+            
+            <div class="edit-btn">    
+                <input type="file" id="uploadImage" name="profile_picture"
+                    accept="image/*" onchange="previewImage(event)" style="display:none;" >
+                <label for="uploadImage" >Edit</label>
+            </div>
+            <div class="buttons-row">
 
-            <label for="uploadImage" class="edit-btn">Edit</label>
-
-            <button type="submit" class="save-btn">Save</button>
-            <button type="button" class="save-btn" 
-                    onclick="window.location.href='{% url 'my-profile' %}'">Cancel</button>
+                <button type="submit" class="save-btn" >Save</button>
+                <button type="button" class="save-btn" 
+                        onclick="window.location.href='{% url 'my-profile' %}'">Cancel</button>
+            </div>
         </form>
 
 
     </div>
 
-    <!-- PLACE SCRIPT HERE (VERY IMPORTANT) -->
     <script>
         function previewImage(event) {
             const file = event.target.files[0];
             if (file) {
                 const img = document.getElementById("previewImg");
                 img.src = URL.createObjectURL(file);
-                img.style.display = "block";
             }
         }
     </script>
 
-</body>
+
+
 </html>

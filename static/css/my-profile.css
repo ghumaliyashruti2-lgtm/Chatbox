@@ -1,0 +1,213 @@
+/* =========================================================
+   MY PROFILE PAGE – BASE
+========================================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background: #f5f5f5;
+}
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+.close-btn {
+    position: absolute;
+    top: 35px;
+    right: 145px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 9px;
+    background: #4BA3DE;
+    border-radius: 25px;
+    color: #fff;
+    font-weight: 800;
+    opacity: 0.9;
+}
+
+.close-btn:hover {
+    transform: scale(1.1);
+}
+
+/* =========================================================
+   PROFILE HEADER
+========================================================= */
+.profile-header-bg {
+    height: 120px;
+    background: linear-gradient(to right, #acd6ff, #ffe9c9);
+    border-radius: 12px 12px 0 0;
+}
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+.profile-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* =========================================================
+   TOP SECTION
+========================================================= */
+.profile-top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    margin-top: -60px;
+}
+
+/* =========================================================
+   USER INFO
+========================================================= */
+.profile-user {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.profile-user img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+.delete-btn {
+    background: #3b82f6;
+    padding: 10px 22px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 15px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #2563eb;
+}
+
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
+label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e6e6e6;
+    background: #f7f7f7;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    padding: 0 30px 30px;
+}
+
+/* =========================================================
+   ICON BUTTONS
+========================================================= */
+.circle-btn {
+    width: 40px;
+    height: 40px;
+    background: #4BA3DE;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 22px;
+}
+
+.circle-btn:hover {
+    background: #0062ad;
+    transform: scale(1.05);
+}
+
+.circle-btn p {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #000;
+    text-align: center;
+}
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+.setting-save-btn {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding-bottom: 25px;
+}
+
+.save-btn {
+    background: #4BA3DE;
+    color: #ffffff;
+    padding: 10px 30px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+}
+
+.save-btn:hover {
+    background: #0062ad;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 992px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-top-section {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .close-btn {
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-container {
+        margin: 15px;
+    }
+
+    .profile-user img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .save-btn {
+        width: 100%;
+    }
+}

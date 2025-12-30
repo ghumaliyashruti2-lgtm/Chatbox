@@ -1,0 +1,116 @@
+/* =========================================================
+   SIGNUP PAGE – BASE
+========================================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f7ff;
+}
+
+/* =========================================================
+   SIGNUP CONTAINER
+========================================================= */
+.signup-container {
+    width: 350px;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+.signup-container h2 {
+    margin-bottom: 25px;
+    color: #0062ad;
+    font-size: 28px;
+}
+
+/* =========================================================
+   INPUT GROUP
+========================================================= */
+.input-group {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    font-size: 15px;
+    color: #333;
+    display: block;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #4BA3DE;
+    border-radius: 8px;
+    margin-top: 6px;
+    font-size: 16px;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #4BA3DE;
+}
+
+/* =========================================================
+   SIGNUP BUTTON
+========================================================= */
+.signup-btn {
+    width: 100%;
+    padding: 12px;
+    background: #0062ad;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.signup-btn:hover {
+    background: #4BA3DE;
+}
+
+/* =========================================================
+   LOGIN LINK
+========================================================= */
+.login-text {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-text a {
+    color: #0062ad;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-text a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 480px) {
+    .signup-container {
+        width: 90%;
+        margin: 35px auto;
+        padding: 22px;
+    }
+
+    .signup-container h2 {
+        font-size: 24px;
+    }
+
+    .signup-btn {
+        font-size: 16px;
+    }
+}

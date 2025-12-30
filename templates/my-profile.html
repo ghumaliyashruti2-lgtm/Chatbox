@@ -3,7 +3,6 @@
 {% block content %}
 
 <div class="profile-container">
-
     <!-- Gradient Banner -->
     <div class="profile-header-bg"></div>
 
@@ -12,8 +11,8 @@
         <div class="profile-user">
 
            <img class="profile-img"
-     src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'images/user_img.png' %}{% endif %}"
-     alt="Profile">
+                src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'images/user_img.png' %}{% endif %}"
+                alt="Profile">
 
             <div>
                 <h3 style="margin-top:30px;">{{ user.get_full_name|default:user.username }}</h3>
@@ -36,44 +35,44 @@
     <!-- Form Section -->
     <form method="POST">
 
-    {% csrf_token %}
+            {% csrf_token %}
 
-    <div class="form-grid">
+            <div class="form-grid">
 
-        <div>
-            <label>Username</label>
-            <input type="text" name="full_name" value="{{ user.username }}">
-        </div>
-        
-        <div>
-            <label>Email</label>
-            <input type="text" name="nickname" value="{{ user.email }}">
-        </div>
+                <div>
+                    <label>Username</label>
+                    <input class="input-tag" type="text" name="full_name" value="{{ user.username }}">
+                </div>
+                
+                <div>
+                    <label>Email</label>
+                    <input class="input-tag" type="text" name="nickname" value="{{ user.email }}">
+                </div>
 
-        <div>
-            <label>Gender</label>
-            <select name="gender">
-                <option value="">Select Gender</option>
-                <option value="Female" {% if profile.gender == "Female" %}selected{% endif %}>Female</option>
-                <option value="Male" {% if profile.gender == "Male" %}selected{% endif %}>Male</option>
-                <option value="Other" {% if profile.gender == "Other" %}selected{% endif %}>Other</option>
-            </select>
-        </div>
+                <div>
+                    <label>Gender</label>
+                    <select class="input-tag" name="gender">
+                        <option value="">Select Gender</option>
+                        <option value="Female" {% if profile.gender == "Female" %}selected{% endif %}>Female</option>
+                        <option value="Male" {% if profile.gender == "Male" %}selected{% endif %}>Male</option>
+                        <option value="Other" {% if profile.gender == "Other" %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
 
-        <div>
-            <label>Mobile</label>
-            <input type="text" name="mobile" id="mobile" 
-                   value="{{ profile.mobile }}" 
-                   maxlength="10"
-                   placeholder="Enter your mobile number">
-        </div>
+                <div>
+                    <label>Mobile</label>
+                    <input class="input-tag"  type="text" name="mobile" id="mobile" 
+                        value="{{ profile.mobile }}" 
+                        maxlength="10"
+                        placeholder="Enter your mobile number">
+                </div>
 
-    </div>
+            </div>
 
-    <div class="setting-save-btn">
-        <button type="submit" class="save-btn">Save</button>
-    </div>
-</form>
+            <div class="setting-save-btn">
+                <button type="submit" class="save-btn">Save</button>
+            </div>
+    </form>
 
 
     

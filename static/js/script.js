@@ -1,202 +1,168 @@
-function sendQuick(text){
-  sendToChat(text);
-  botReply(text);
-}
-
-function sendMessage() {
-  let input = document.getElementById("userInput");
-  if (input.value.trim() == "") return;
-  sendToChat(input.value);
-  botReply(input.value);
-  input.value = "";
-}
-
-function sendToChat(text){
-  let chatBody = document.getElementById("chatBody");
-  let userMsg = document.createElement("div");
-  userMsg.classList.add("user-message");
-  userMsg.innerText = text;
-  chatBody.appendChild(userMsg);
-  chatBody.scrollTop = chatBody.scrollHeight;
-}
-
 // ----------------------
-// BOT REPLY LOGIC
+// GET CSRF TOKEN
 // ----------------------
+function getCookie(name) {
+    let cookieArr = document.cookie.split(";");
 
-function botReply(text){
-  let lower = text.toLowerCase();
-
-  if(lower.includes("course")){
-    showCourseButtons();
-  }
-  else {
-    let reply = "";
-
-    if(lower.includes("fees"))
-      reply = "Course fees start from ₹4,999 to ₹24,999 depending on module.";
-    else if(lower.includes("duration"))
-      reply = "Course duration varies 4–12 weeks.";
-    else if(lower.includes("location") || lower.includes("contact"))
-      reply = "Nana Varachha, Surat • +91 87805 62404";
-    else if(lower.includes("job"))
-      reply = "We provide placement support after course completion.";
-    else
-      reply = "Thank you! Our team will assist you shortly 😊";
-
-    showBotMessage(reply);
-  }
+    for (let cookie of cookieArr) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + "=")) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return "";
 }
 
-// ----------------------
-// SHOW NORMAL BOT TEXT
-// ----------------------
-
-function showBotMessage(text){
-  setTimeout(()=>{
-    let chatBody = document.getElementById("chatBody");
-    let botMsg = document.createElement("div");
-    botMsg.classList.add("bot-message");
-    botMsg.innerText = text;
-    chatBody.appendChild(botMsg);
-    chatBody.scrollTop = chatBody.scrollHeight;
-  }, 400);
-}
 
 // ----------------------
 // SHOW COURSE BUTTONS
 // ----------------------
+function showCourseButtons() {
+    setTimeout(() => {
+        let chatBody = document.getElementById("chatBody");
+        const courses = ["Python", "Java", "Full Stack", "Web Development", "More"];
 
-function showCourseButtons(){
-  setTimeout(()=>{
-    let chatBody = document.getElementById("chatBody");
+        let box = document.createElement("div");
+        box.classList.add("course-options-box");
 
-    const courses = [
-      "Python",
-      "Java",
-      "Full Stack",
-      "Web Development",
-      "More"
-    ];
+        courses.forEach(course => {
+            let btn = document.createElement("button");
+            btn.classList.add("smart-option-btn");
+            btn.innerText = course;
 
-    let box = document.createElement("div");
-    box.classList.add("course-options-box");
+            btn.addEventListener("click", () => {
+                document.getElementById("userInput").value = course;
+                sendMessage();
+            });
 
-    courses.forEach(course => {
-      let btn = document.createElement("button");
-      btn.classList.add("smart-option-btn");
-      btn.innerText = course;
-
-      btn.addEventListener("click", () => {
-        sendToChat(course);
-        botReply(course);
-      });
-
-      box.appendChild(btn);
-    });
-
-    chatBody.appendChild(box);
-    chatBody.scrollTop = chatBody.scrollHeight;
-
-  }, 400);
-}
-
-
-// country and city name and mobile code 
-
-
-const data = {
-
-    "India": {
-        code: "+91",
-        cities: [
-            "Ahmedabad", "Surat", "Vadodara", "Rajkot", "Mumbai", "Pune",
-            "Delhi", "Bengaluru", "Hyderabad", "Chennai", "Kolkata",
-            "Jaipur", "Lucknow", "Kanpur", "Indore", "Bhopal", "Agra"
-        ]
-    },
-
-    "United States": {
-        code: "+1",
-        cities: [
-            "New York", "Los Angeles", "Chicago", "Houston", "Phoenix",
-            "San Diego", "Dallas", "San Jose", "Philadelphia"
-        ]
-    },
-
-    "United Kingdom": {
-        code: "+44",
-        cities: [
-            "London", "Manchester", "Birmingham", "Liverpool", "Leeds",
-            "Bristol", "Sheffield"
-        ]
-    },
-
-    "Canada": {
-        code: "+1",
-        cities: [
-            "Toronto", "Vancouver", "Montreal", "Calgary", "Ottawa",
-            "Edmonton"
-        ]
-    },
-
-    "Australia": {
-        code: "+61",
-        cities: [
-            "Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"
-        ]
-    },
-
-    "Germany": {
-        code: "+49",
-        cities: [
-            "Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt"
-        ]
-    }
-
-    
-
-    
-};
-
-
-
-let countryDropdown = document.getElementById("country");
-for (let country in data) {
-    countryDropdown.innerHTML += `<option value="${country}">${country}</option>`;
-}
-
-
-
-document.getElementById("country").addEventListener("change", function () {
-    let selected = this.value;
-    let mobile = document.getElementById("mobile");
-    let city = document.getElementById("city");
-
-    if (selected && data[selected]) {
-        // Set mobile code
-        mobile.value = data[selected].code + " ";
-
-        // Fill cities
-        city.innerHTML = "<option value=''>Select City</option>";
-        data[selected].cities.forEach(c => {
-            city.innerHTML += `<option value="${c}">${c}</option>`;
+            box.appendChild(btn);
         });
 
-    } else {
-        mobile.value = "";
-        city.innerHTML = "<option value=''>Select City</option>";
-    }
-});
-
-// image show on edit page
-
-function previewImage(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const img = document.getElementById("previewImg");
-        img.src = URL.createObjectURL(file);
-        img.style.display = "block";
-    }
+        chatBody.appendChild(box);
+        setTimeout(autoScroll, 50);
+    }, 400);
 }
 
+
+// ----------------------
+// ajax Send Message
+// ----------------------
+let isProcessing = false;  // Global flag
+
+async function sendMessage(event) {
+    if (event) event.preventDefault();
+
+    if (isProcessing) return; // block multiple clicks
+
+    const input = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const chatBody = document.getElementById("chatBody");
+    const typingIndicator = document.getElementById("typingIndicator");
+
+    const message = input.value.trim();
+    if (!message) return;
+
+    // ---- Lock ----
+    isProcessing = true;
+    input.disabled = true;
+
+    // Don't change button text, only appearance
+    sendBtn.style.opacity = "0.6";
+    sendBtn.style.cursor = "not-allowed";
+    sendBtn.title = "Please wait, bot is replying...";
+
+    // Append user message
+    chatBody.innerHTML += `<div class="message user">${message}</div>`;
+    setTimeout(autoScroll, 50);
+
+    input.value = "";
+
+    typingIndicator.style.display = "flex";
+
+    const csrfToken = getCookie("csrftoken");
+
+    try {
+        const response = await fetch("/index/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({ message: message })
+        });
+
+        const data = await response.json();
+
+        typingIndicator.style.display = "none";
+
+        chatBody.innerHTML += `<div class="message bot">${data.reply.replace(/\n/g, "<br>")}</div>`;
+        setTimeout(autoScroll, 50);
+
+        if (data.show_courses) {
+            showCourseButtons();
+        }
+
+    } catch (error) {
+        console.error("Error:", error);
+    }
+
+    // ---- Unlock ----
+    isProcessing = false;
+    input.disabled = false;
+
+    sendBtn.style.opacity = "1";
+    sendBtn.style.cursor = "pointer";
+    sendBtn.title = "";
+
+    input.focus();
+}
+
+
+
+// ----------------------
+// Quick Reply Buttons Support
+// ----------------------
+function sendQuick(text) {
+    document.getElementById("userInput").value = text;
+    sendMessage();
+}
+
+
+// ----------------------
+// Auto-scroll on page load
+// ----------------------
+window.addEventListener("DOMContentLoaded", () => {
+    let chatBody = document.getElementById("chatBody");
+    chatBody.scrollTop = chatBody.scrollHeight;
+});
+
+
+function autoScroll() {
+    const chatBody = document.getElementById("chatBody");
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+/* future code 
+function loadHistory() {
+    const url = document.getElementById("history-url").value;
+
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("right-content").innerHTML = data;
+        })
+        .catch(error => console.error("Error loading history:", error));
+}
+
+
+function loadProfile() {
+    fetch("/my-profile/")   // URL of profile page
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById("right-content").innerHTML = html;
+        })
+        .catch(error => {
+            console.error("Error loading profile:", error);
+        });
+}*/
