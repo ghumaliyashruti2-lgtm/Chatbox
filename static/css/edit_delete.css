@@ -1,0 +1,158 @@
+/* ================= RESET & GLOBAL ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background: transparent;
+}
+
+/* Prevent overflow on small devices */
+html, body {
+    width: 100%;
+}
+
+/* Keep transparent background */
+.profile-card,
+.profile-container,
+.container {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/* ================= CARD ================= */
+.card {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    background: #fff;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0,0,0,0.1);
+}
+
+/* ================= ICON ================= */
+.icon-container {
+    width: 160px;
+    height: 160px;
+    background: #57a4dc;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.icon-container i {
+    font-size: 40px;
+    color: #fff;
+}
+
+/* Image Preview */
+#previewImg,
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* ================= TEXT ================= */
+h2 {
+    margin: 12px 0;
+    color: #333;
+    font-size: 22px;
+}
+
+/* ================= BUTTON RESET ================= */
+button,
+button:focus,
+button:active,
+button:focus-visible {
+    outline: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+/* ================= BUTTONS ================= */
+.delete-btn,
+.edit-btn label,
+.save-btn {
+    width: 80%;
+    background: #4BA3DE;
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-top: 8px;
+    transition: 0.2s;
+}
+
+.edit-btn label {
+    display: inline-block;
+}
+
+.save-btn {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+/* Hover */
+.delete-btn:hover,
+.edit-btn label:hover,
+.save-btn:hover {
+    background: #0062ad;
+}
+
+/* Remove link underline */
+.save-btn a {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* ================= BUTTON ROW ================= */
+.buttons-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+/* ================= RESPONSIVE (SAFE ONLY) ================= */
+
+/* Tablet */
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+
+    .card {
+        padding: 30px;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .card {
+        padding: 25px 20px;
+    }
+
+    .delete-btn,
+    .edit-btn label {
+        width: 100%;
+    }
+}
