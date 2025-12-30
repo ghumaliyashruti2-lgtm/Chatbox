@@ -1,155 +1,338 @@
-/* ================= RESET & GLOBAL ================= */
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
 
+/* Hide scrollbar for Chrome, Edge, Safari */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+/* Hide scrollbar for Firefox */
+* {
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for IE */
+* {
+    -ms-overflow-style: none;
+}
+
+
 body {
-    background: #f5f7ff;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
+    background: #f1f3f8;
+    padding: 25px;
+
 }
 
-/* ================= CARD ================= */
-.card {
-    position: relative;
-    width: 100%;
-    max-width: 450px;
-    padding: 40px;
-    background: #fff;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 0 40px rgba(0,0,0,0.1);
-}
-
-/* ================= ICON ================= */
-.icon-container {
-    width: 160px;
-    height: 160px;
-    background: #57a4dc;
-    margin: 0 auto 20px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.icon-container i {
-    font-size: 40px;
-    color: #fff;
-}
-
-/* Image Preview */
-#previewImg,
-.profile-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-/* ================= TEXT ================= */
-h2 {
-    margin: 12px 0;
-    color: #333;
-    font-size: 22px;
-}
-
-/* ================= BUTTON RESET ================= */
+/* Remove button focus outlines */
 button,
 button:focus,
 button:active,
 button:focus-visible {
-    outline: none;
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* ========== PAGE LAYOUT ========== */
+.content-area {
+    min-height: 100vh;
+    padding: 0px;
+}
+
+/* Main Chat Card */
+.chat-card {
+    display: flex;
+    height: calc(100vh - 40px);
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    overflow: hidden;
+
+}
+
+/* ========== SIDEBAR ========== */
+.chat-sidebar {
+    width: 300px;
+    padding:20px 15px;
+    background: #ffffff;
+    border-right: 1px solid #eee;
+    overflow: hidden;   
+    
+}
+
+/* Profile Card */
+.profile-card {
+    background: #f9f9f9;
+    border-radius: 20px;
+    padding: 20px 20px 30px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* Profile Image */
+.profile-img img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid white;
+    margin-top: -10px;
+}
+
+/* Info Rows */
+.info-row{
+    display: flex;
+    flex-direction: row;
+}
+
+
+.info-row span{
+    text-align: left;
+    display: flex;
+    width: 100px;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #555;
+   
+}
+
+.info-row strong{
+    display: flex;
+    text-align: left;
+    width: 160px;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.info-row-email{
+    display: flex;
+    text-align: left;
+    word-break: break-all;
+    font-size: 14px;
+    color: #555;
+}
+
+
+hr {
+    margin: 15px 0;
     border: none;
-    box-shadow: none;
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Sidebar Items */
+.settings-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
     cursor: pointer;
 }
 
-/* ================= BUTTONS ================= */
-.delete-btn,
-.edit-btn label,
-.save-btn {
-    width: 80%;
+.settings-item i {
+    font-size: 18px;
+}
+
+.settings-item span {
+    flex: 1;
+    text-align: left;
+    margin-left: 15px;
+    color: #333;
+}
+
+.settings-item .arrow {
+    font-size: 12px;
+}
+
+
+.settings-link {
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+
+/* ========== CHAT MAIN AREA ========== */
+.chat-main {
+    flex: 1;
+    display: flex;
+    padding: 15px;
+}
+
+/* Inner Card */
+.chat-inner-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #f9f9f9;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.1);
+}
+
+.chat-header {
     background: #4BA3DE;
     color: #fff;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 15px;
-    margin-top: 8px;
-    transition: 0.2s;
-}
-
-.edit-btn label {
-    display: inline-block;
-}
-
-.save-btn {
-    width: auto;
-    padding: 10px 20px;
-    font-size: 14px;
-}
-
-/* Hover */
-.delete-btn:hover,
-.edit-btn label:hover,
-.save-btn:hover {
-    background: #0062ad;
-}
-
-/* Remove link underline */
-.save-btn a {
-    text-decoration: none;
-    color: #fff;
-}
-
-/* ================= BUTTON ROW ================= */
-.buttons-row {
+    border-radius: 18px;
     display: flex;
-    justify-content: center;
+    align-items: center;
     gap: 10px;
-    margin-top: 10px;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    font-weight: 600;
+    margin-bottom: 12px;
 }
 
-/* ================= RESPONSIVE ================= */
 
-/* Tablet */
+/* left title */
+.chat-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    padding: 12px 18px;
+}
+
+/* profile image container */
+.header-profile{
+    padding: 6px 12px;
+}
+
+.header-profile img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+
+}
+ .mobile-only {
+    display: none;
+}
+
+
+/* ================================
+   RESPONSIVE ONLY – DO NOT MODIFY ABOVE CODE
+================================ */
+
+/* LARGE TABLETS / SMALL LAPTOPS */
+@media (max-width: 1024px) {
+    .chat-sidebar {
+        width: 260px;
+    }
+}
+
+/* TABLETS */
 @media (max-width: 768px) {
-    .card {
-        padding: 30px 25px;
+    body {
+        padding: 10px;
     }
 
-    .icon-container {
-        width: 140px;
-        height: 140px;
+    .chat-card {
+        height: auto;
+        flex-direction: column;
     }
 
-    h2 {
-        font-size: 20px;
+    /* Hide sidebar on mobile */
+    .chat-sidebar {
+        display: none;
+    }
+
+    /* Main area takes full width */
+    .chat-main {
+        width: 100%;
+        flex: 1;
+        padding: 10px;
+    }
+
+    .chat-inner-card {
+        border-radius: 18px;
+        padding: 12px;
+    }
+
+    /* Show mobile back button / icon */
+    .mobile-only {
+        display: block;
     }
 }
 
-/* Mobile */
-@media (max-width: 480px) {
-    .card {
-        padding: 25px 20px;
+/* MOBILE DEVICES */
+@media (max-width: 600px) {
+    .chat-header {
+        flex-wrap: wrap;
     }
 
-    .icon-container {
+    .chat-title {
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+
+    .header-profile img {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+/* SMALL MOBILE DEVICES */
+@media (max-width: 400px) {
+    body {
+        padding: 6px;
+    }
+
+    .chat-main {
+        padding: 8px;
+    }
+
+    .chat-inner-card {
+        padding: 10px;
+    }
+
+    .chat-title {
+        font-size: 14px;
+    }
+
+    /* Prevent horizontal overflow */
+    body {
+        overflow-x: hidden;
+    }
+}
+
+/* ============================= */
+/* MOBILE SIDEBAR FULL PAGE MODE */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+    /* Sidebar becomes full screen page */
+    .profile-card {
+        width: 100%;
+        max-width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 24px 16px;
+        margin: 0;
+    }
+
+    body {
+        padding: 0;
+        background: #f1f3f8;
+    }
+
+    /* Better spacing for menu items */
+    .settings-item {
+        padding: 18px 0;
+        font-size: 16px;
+    }
+
+    .profile-img img {
         width: 120px;
         height: 120px;
     }
-
-    .delete-btn,
-    .edit-btn label {
-        width: 100%;
-    }
-
 }

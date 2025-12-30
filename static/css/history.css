@@ -1,3 +1,6 @@
+
+/* histroy page */
+
 /* ================= RESET & GLOBAL ================= */
 * {
     margin: 0;
@@ -8,14 +11,17 @@
 
 body {
     background: #f1f3f8;
-    padding: 25px;
+    padding: 25px;       
+    overflow: auto; 
+   
+    
 }
 
 /* ================= TOP BAR ================= */
 .top-bar {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 }
 
 
@@ -101,7 +107,7 @@ body {
     padding: 8px 0;
     display: none;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    z-index: 100;
+    
 }
 
 .menu-item,
@@ -125,32 +131,7 @@ body {
     display: block;
 }
 
-/* Profile Image */
-.profile-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    cursor: pointer;
-}
 
-/* Close Button */
-.close-btn {
-    position: absolute;
-    top: 28px;
-    right: 90px;
-    font-size: 13px;
-    padding: 4px 9px;
-    background: #4BA3DE;
-    border-radius: 25px;
-    color: white;
-    cursor: pointer;
-    font-weight: 700;
-}
-
-.close-btn:hover {
-    transform: scale(1.1);
-}
 
 /* ================= MAIN CONTENT ================= */
 .layout,
@@ -160,11 +141,15 @@ body {
 }
 
 .main {
+    height: 100%;
     background: #fff;
     padding: 25px;
     border-radius: 14px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
 }
+
 
 .no-history {
     text-align: center;
@@ -175,6 +160,31 @@ body {
 }
 
 /* ================= HISTORY ================= */
+
+/* Scrollable History Container */
+
+.history-body {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Chrome, Safari, Opera */
+.history-body::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+/* Hide scrollbar for IE, Edge */
+.history-body {
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/* Hide scrollbar for Firefox */
+.history-body {
+    scrollbar-width: none;  /* Firefox */
+}
+
+
 .date-title,
 .timeline-date {
     font-size: 18px;
@@ -183,39 +193,119 @@ body {
     color: #34495e;
 }
 
+/* Container for each history row */
+/* ================= HISTORY ROW ================= */
 .history-row {
     display: flex;
-    gap: 20px;
-    padding: 12px;
-    background: #f7f9fc;
-    border-radius: 12px;
-    margin-bottom: 10px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    position: relative;
+}
+
+/* Clickable area */
+.history-link {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+    padding: 0px;
 }
 
 /* Time */
 .time {
-    width: 80px;
-    font-size: 13px;
-    color: #7f8c8d;
+    min-width: 70px;
+    font-size: 14px;
+    color: #6b7280;
+    padding: 12px;
 }
 
-/* Messages */
+/* Message box */
 .content {
-    width: 100%;
+    flex: 1;
+    background: #fff;
+    border-radius: 14px;
+    padding: 0px 10px 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
-.user-msg {
-    background: #d8ecff;
-    padding: 10px 12px;
-    border-radius: 10px;
-    margin-bottom: 6px;
+/* Message text */
+.history-msg {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    background: #dbeeff;
+    transition: 0.2s;
 }
 
-.bot-msg {
-    background: #e8e8e8;
-    padding: 10px 12px;
-    border-radius: 10px;
+/* Hover */
+.history-link:hover .history-msg {
+    background: #909090;
+    color: #fff;
 }
+
+/* ================= DELETE BUTTON ================= */
+.delete-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #5b9bd5;
+    padding: 6px;
+    flex-shrink: 0;
+}
+
+.delete-btn:hover {
+    color: #909090;
+}
+
+/* ================= POPUP ================= */
+#cleanPopup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.clean-popup-box {
+    background: #fff;
+    padding: 28px;
+    width: 380px;
+    max-width: 90%;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+/* Buttons */
+.simple-buttons {
+    margin-top: 22px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+.simple-cancel,
+.simple-delete {
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #4BA3DE;
+    color: #fff;
+}
+
+.simple-cancel:hover,
+.simple-delete:hover {
+    transform: scale(1.05);
+}
+
 
 /* ================= TIMELINE ================= */
 .timeline-card {
@@ -249,17 +339,25 @@ body {
     backdrop-filter: blur(2px);
     justify-content: center;
     align-items: center;
-    z-index: 9999;
 }
 
 .simple-popup-box {
     background: #fff;
-    padding: 25px;
-    width: 320px;
+    padding: 30px;
+    width: 350px;
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     animation: fadeIn 0.25s ease-in-out;
+}
+
+.simple-popup-box i{
+    font-size: 44px;
+    color:#4BA3DE;
+}
+
+.simple-popup-box h3{
+    margin-top:  20px ;
 }
 
 .simple-buttons {
@@ -284,19 +382,7 @@ body {
     transform: scale(1.1);
 }
 
-/* Delete Icon */
-.delete-btn {
-    background: transparent;
-    border: none;
-}
 
-.delete-btn i {
-    color: #4BA3DE;
-}
-
-.delete-btn i:hover {
-    transform: scale(1.2);
-}
 
 /* ================= ANIMATION ================= */
 @keyframes fadeIn {
@@ -310,6 +396,7 @@ body {
 @media (max-width: 992px) {
     body {
         padding: 15px;
+        
     }
 
     .layout,
@@ -318,24 +405,46 @@ body {
     }
 
     .history-row {
-        flex-direction: column;
-        gap: 8px;
+        flex-direction: row;
+        width: auto;
+        gap: 20px;
     }
 
     .time {
-        width: auto;
+        width: 80px;
     }
 }
 
 /* Mobile */
-@media (max-width: 576px) {
+@media (max-width: 576px){
+
+    .body{
+        min-height: 95vh;
+    }
+
+    .content-area{
+        min-height: 95vh;
+    }
+
+    .chat-card{
+        padding: 0px;
+    }
+    
+    .chat-main {
+        flex: 1;
+        display: flex;
+        padding: 10px 10px;
+        min-height: 96vh;
+    
+    }
+
     .top-bar {
-        flex-direction: column;
+        flex-direction: row;
         align-items: stretch;
     }
 
     .top-left {
-        flex-direction: column;
+        flex-direction: row;
         align-items: stretch;
     }
 
@@ -353,3 +462,15 @@ body {
         text-align: right;
     }
 }
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+        padding: 10px;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+}
+

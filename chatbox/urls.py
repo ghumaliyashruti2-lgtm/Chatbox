@@ -5,10 +5,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     
-
-    path("",include("author.urls")),
-    path("", include("profiles.urls")),
-    path("", include("chat_history.urls")),
+     path('chatbot/', include('apps.newchat.urls')),
+    path("",include("apps.author.urls")),
+    path("",include("apps.history.urls")),
+    path("", include("apps.profiles.urls")),
     
     
 ]

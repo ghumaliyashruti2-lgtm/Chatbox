@@ -1,69 +1,48 @@
-/* =========================================================
-   MY PROFILE PAGE – BASE
-========================================================= */
+/* ================================
+   GLOBAL (MATCH chatbot PAGE BODY)
+================================ */
 body {
     margin: 0;
-    padding: 0;
     font-family: "Poppins", sans-serif;
-    background: #f5f5f5;
+    background: #eef2f7;   /* SAME AS chatbot */
+    min-height: 100vh;
+
 }
 
-/* =========================================================
-   CLOSE BUTTON
-========================================================= */
-.close-btn {
-    position: absolute;
-    top: 35px;
-    right: 145px;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 4px 9px;
-    background: #4BA3DE;
-    border-radius: 25px;
-    color: #fff;
-    font-weight: 800;
-    opacity: 0.9;
-}
-
-.close-btn:hover {
-    transform: scale(1.1);
-}
-
-/* =========================================================
-   PROFILE HEADER
-========================================================= */
-.profile-header-bg {
-    height: 120px;
-    background: linear-gradient(to right, #acd6ff, #ffe9c9);
-    border-radius: 12px 12px 0 0;
-}
-
-/* =========================================================
-   MAIN CONTAINER
-========================================================= */
 .profile-container {
-    max-width: 1000px;
-    margin: 30px auto;
+    width: 100%;
+    max-width: 1100px;
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
     overflow: hidden;
 }
 
-/* =========================================================
-   TOP SECTION
-========================================================= */
-.profile-top-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 25px 30px;
-    margin-top: -60px;
+.profile-header-bg {
+    height: 140px;
+    background: linear-gradient(90deg, #4BA3DE, #6EC1FF);
+    
 }
 
-/* =========================================================
-   USER INFO
-========================================================= */
+ .back-btn {
+    font-size: 18px;
+    width: fit-content;
+    cursor: pointer;
+    background: #4BA3DE;
+    padding: 10px 10px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.profile-top-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 35px;
+    margin-top:-70px;
+}
+
+
 .profile-user {
     display: flex;
     align-items: center;
@@ -71,61 +50,31 @@ body {
 }
 
 .profile-user img {
-    width: 100px;
-    height: 100px;
+    width:150px;
+    height: 150px;
     border-radius: 50%;
+    border: 4px solid #ffffff;
     object-fit: cover;
 }
 
-/* =========================================================
-   DELETE BUTTON
-========================================================= */
-.delete-btn {
-    background: #3b82f6;
-    padding: 10px 22px;
-    border-radius: 8px;
-    color: #ffffff;
-    font-size: 15px;
-    text-decoration: none;
-    cursor: pointer;
+.profile-user h3 {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
-.delete-btn:hover {
-    background: #2563eb;
-}
-
-/* =========================================================
-   FORM ELEMENTS
-========================================================= */
-label {
+.profile-user p {
+    margin-top: 10px;
     font-size: 14px;
-    font-weight: 500;
+    color: #6b7280;
 }
 
-input,
-select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #e6e6e6;
-    background: #f7f7f7;
-    margin-top: 5px;
-    font-size: 14px;
+
+.profile-actions {
+    display: flex;
+    gap: 14px;
 }
 
-/* =========================================================
-   FORM GRID
-========================================================= */
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-    padding: 0 30px 30px;
-}
-
-/* =========================================================
-   ICON BUTTONS
-========================================================= */
 .circle-btn {
     width: 40px;
     height: 40px;
@@ -134,80 +83,361 @@ select {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #ffffff;
     cursor: pointer;
-    transition: 0.2s;
-    font-size: 22px;
+    transition: 0.2s ease;
+    font-size: 18px;
 }
 
 .circle-btn:hover {
     background: #0062ad;
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
-.circle-btn p {
-    margin-top: 8px;
-    font-size: 13px;
-    color: #000;
-    text-align: center;
+/* ================================
+   FORM GRID (MATCH CHAT INPUTS)
+================================ */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    padding: 20px 35px 30px;
 }
 
-/* =========================================================
-   SAVE BUTTON
-========================================================= */
+label {
+    font-size: 15px;
+    font-weight: 700;
+    color: #374151;
+
+}
+
+input,
+select {
+    margin-top: 10px;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    font-size: 14px;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #4BA3DE;
+    background: #ffffff;
+}
+
+/* ================================
+   SAVE BUTTON (CHAT STYLE)
+================================ */
 .setting-save-btn {
     display: flex;
     justify-content: center;
-    gap: 12px;
-    padding-bottom: 25px;
+    padding: 0 35px 35px;
 }
 
 .save-btn {
     background: #4BA3DE;
     color: #ffffff;
-    padding: 10px 30px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
+    padding: 14px 45px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
     border: none;
+    cursor: pointer;
+    transition: 0.2s ease;
 }
 
 .save-btn:hover {
     background: #0062ad;
 }
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-@media (max-width: 992px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
 
-    .profile-top-section {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
+/* pop-up design code */
 
-    .close-btn {
-        right: 20px;
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-overlay.active {
+    display: flex;
+}
+
+/* Transparent wrapper — NO white box */
+.popup-wrapper {
+    width: 95%;
+    max-width: 520px;
+    height: 85vh;
+    background: transparent;   /* important */
+    border-radius: 0;          /* avoid double rounding */
+    position: relative;
+}
+
+/* iframe shows ONLY edit-profile design */
+.popup-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 24px;       /* keep rounding here */
+    background: transparent;
+}
+
+
+/* ================================
+   RESPONSIVE FIX (chatbot-LIKE)
+================================ */
+
+/* LARGE LAPTOPS & SMALL DESKTOPS */
+@media (max-width: 1200px) {
+    .profile-container {
+        max-width: 100%;
     }
 }
 
-@media (max-width: 480px) {
-    .profile-container {
-        margin: 15px;
+/* TABLETS */
+@media (max-width: 992px) {
+    .body,
+    .content-area,
+    .chat-inner-card{
+        min-height: 89vh;
     }
 
+    .profile-container {
+        margin: 0 auto;
+        min-height: 95vh;
+    }
+
+    .profile-header-bg {
+        height: 120px;
+    }
+
+    .profile-top-section {
+        flex-direction: row;
+        margin-top: -50px;
+        padding: 0 25px;
+        gap: 12px;
+    }
+
+    .profile-user {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .profile-user img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        padding: 20px 25px 30px;
+    }
+}
+
+/* MOBILE DEVICES */
+@media (max-width: 600px) {
+    .body,
+    .content-area,
+    .chat-inner-card{
+        min-height: 92vh;
+    }
+
+    .profile-container{
+        min-height: 92vh;
+    }
+    
+
+    .profile-header-bg {
+        height: 100px;
+    }
+
+    .profile-top-section {
+        margin-top: -40px;
+        padding: 0 18px;
+    }
+
+    .profile-user img {
+        width: 95px;
+        height: 95px;
+    }
+
+    .profile-user h3 {
+        font-size: 18px;
+    }
+
+    .profile-user p {
+        font-size: 13px;
+    }
+
+    .profile-actions {
+        margin-top: 10px;
+    }
+
+    .form-grid {
+        gap: 16px;
+        padding: 18px;
+    }
+
+    input,
+    select {
+        font-size: 14px;
+        padding: 11px 12px;
+    }
+
+    .setting-save-btn {
+        padding: 0 18px 25px;
+    }
+
+    .save-btn {
+        width: 100%;
+        padding: 13px;
+    }
+}
+
+/* EXTRA SMALL SCREENS */
+@media (max-width: 400px) {
+
+
+    .content-area{
+        min-height: 95vh;
+        padding: 20px 10px;
+    
+    }
+
+    .chat-main{
+        padding: 6px;
+    }
+
+    .chat-card{
+        padding: 0px;
+    }
+
+    .chat-inner-card{
+        min-height: 95vh;
+    }
     .profile-user img {
         width: 80px;
         height: 80px;
     }
 
+    .circle-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+        padding: 10px;
+    }
+}
+
+
+/* ================================
+   RESPONSIVE FIXES ONLY
+   (DO NOT CHANGE MAIN DESIGN)
+================================ */
+
+/* LARGE SCREENS SAFETY */
+@media (max-width: 1200px) {
+    .profile-container {
+        max-width: 100%;
+    }
+}
+
+/* TABLETS */
+@media (max-width: 992px) {
+    .profile-top-section {
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: -55px;
+    }
+
+    .profile-user img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* MOBILE DEVICES */
+@media (max-width: 768px) {
+    .profile-top-section {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: -36px;
+    }
+
+    .profile-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .popup-wrapper {
+        width: 95%;
+        height: 90vh;
+    }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 600px) {
+    .profile-user img {
+        width: 95px;
+        height: 95px;
+    }
+
+    .form-grid {
+        padding: 18px;
+        gap: 16px;
+    }
+
     .save-btn {
         width: 100%;
+    }
+}
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 400px) {
+    .profile-user img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .circle-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .popup-wrapper {
+        height: 92vh;
+    }
+}
+
+@media (max-width: 400px) {
+  body { zoom: 0.99; }
+}
+
+
+/* profile page for mobile */
+
+@media (max-width: 768px) {
+    .mobile-back-btn {
+        display: inline-flex;
     }
 }
